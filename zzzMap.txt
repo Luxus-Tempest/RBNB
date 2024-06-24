@@ -1,0 +1,83 @@
+             <div 
+              className='
+                grid
+                grid-cols-1
+                md:grid-cols-2
+                gap-3
+                max-h-[50vh]
+                overflow-y-auto
+              '>
+                {categories.map((item) => (
+                    <div key={item.label} className=" col-span-1 ">
+                        <CategoryInput
+                        //la fonction onclick peut peut prendre n'importe quoi enn parametre.
+                        //Spn paremetre principal est deja defini dans CategoryIput : label
+                            onClick={(thisLabel) => 
+                                setCustomValues('category', thisLabel)}
+                            selected={category == item.label}
+                            label={item.label}
+                            icon={item.icon}
+                         />
+                    </div>
+                ))}
+              </div>
+        </div>
+    )
+
+    if (step == STEPS.LOCATION) {
+        bodyContent = (
+            <div 
+            className=' flex flex-col gap-8 '>
+
+
+                <Heading
+                    title="Where is your property located ?"
+                    subtitle='Pick a location !'
+                />
+                <CountrySelect
+                    value={location}
+                    onChange={(value) => setCustomValues('location', value)}
+                />
+
+
+            <div className="w-full flex flex-col pb-3">
+          <div className="w-full">
+            <label className="block pb-2">Country</label>
+            <select
+              className="w-[95%] border h-[40px] rounded-[5px]"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              <option className="block p-4 text-lg" value="">
+                Choose your country
+              </option>
+              {Country &&
+                Country.getAllCountries().map((item) => (
+                  <option key={item.isoCode} value={item.isoCode}>
+                    {item.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+          <div className="w-full">
+            <label className="block pb-2">City</label>
+            <select
+              className="w-[100%]  h-[60px] rounded-[5px] p-3 border-2"
+              value={city}
+              onChange={(e) => {
+                setCity(e.target.value);
+                setCustomValues('town', e.target.value);
+            }}
+            >
+              <option className="block pb-2" value="">
+                Choose your City
+              </option>
+              {City &&
+                City.getCitiesOfCountry(location?.value || "")?.map((item) => (
+                  <option key={item.name} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
